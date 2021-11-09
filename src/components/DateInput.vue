@@ -3,7 +3,6 @@
     <label :for="idInput" class="input__label">{{ labelInput }}</label>
     <date-picker
       v-model="value"
-      valueType="format"
       :input-class="inputClasses"
       placeholder="дд.мм.гггг"
       format="DD.MM.YYYY"
@@ -50,17 +49,17 @@ export default {
   methods: {
     changeDate() {
       if (this.checkDate && this.value) {
-        const dateArray = this.value.split(".");
-        const dateString =
-          dateArray[1] + "." + dateArray[0] + "." + dateArray[2];
-        const chooseDate = new Date(dateString);
-        const currentDate = new Date().setHours(0, 0, 0, 0);
-        if (currentDate - chooseDate < 0) {
-          this.haveError = true;
-          this.inputClasses = this.inputClasses + " input__field--error";
-        } else {
+        // const dateArray = this.value.split(".");
+        // const dateString =
+        //   dateArray[1] + "." + dateArray[0] + "." + dateArray[2];
+        // const chooseDate = new Date(dateString);
+        // const currentDate = new Date().setHours(0, 0, 0, 0);
+        if (new Date(this.value) <= new Date()) {
           this.haveError = false;
           this.inputClasses = "input__field";
+        } else {
+          this.haveError = true;
+          this.inputClasses = this.inputClasses + " input__field--error";
         }
       }
       this.$emit("changeDate", {
@@ -74,7 +73,7 @@ export default {
 </script>
 
 <style>
-.mx-datepicker {
-  width: 220px;
-}
+  .input__group {
+    width: 220px;
+  }
 </style>

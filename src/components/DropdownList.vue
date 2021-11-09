@@ -7,6 +7,7 @@
       class="input__field"
       @input="debouncedSearch"
       ref="currentInput"
+      v-model="currentInput"
     />
     <ul
       v-if="isDropdownOpen"
@@ -16,7 +17,7 @@
       <li
         v-for="value in sortList"
         :key="value.id"
-        :currentId="value.id"
+        :id="value.id"
         @click="setValue"
       >
         {{ value[field] }}
@@ -27,17 +28,15 @@
 
 <script>
 import ClickOutside from "vue-click-outside";
+import {debounce} from "@/utils.js" 
 
 export default {
-  created() {
-    this.debouncedSearch = this.debounce(this.filterList, 500);
-  },
   props: {
     labelInput: {
       default: "Подпись поля",
       type: String,
     },
-    EmptyValue: {
+    emptyValue: {
       default: "",
       type: String,
     },
@@ -64,6 +63,8 @@ export default {
       isDropdownOpen: false,
       currentItem: {},
       filterValue: "",
+      debouncedSearch: debounce(this.filterList, 500),
+      currentInput: ""
     };
   },
   computed: {
@@ -85,11 +86,11 @@ export default {
   },
   methods: {
     setValue(e) {
-      const currentId = e.target.getAttribute("currentId");
+      const currentId = e.target.getAttribute("id");
       this.currentItem = this.listItems.find((item) => item.id == currentId);
       this.value = currentId;
       this.isDropdownOpen = false;
-      this.$refs.currentInput.value = this.currentItem[this.field];
+      this.currentInput = this.currentItem[this.field];
       this.$emit("changeSelect", { value: currentId, id: this.idInput });
     },
     closeDropDown(e) {
@@ -102,17 +103,6 @@ export default {
     filterList(e) {
       this.filterValue = e.target.value;
       this.isDropdownOpen = true;
-    },
-    debounce(f, t) {
-      const calls = {};
-      return function (args) {
-        let previousCall = calls.lastCall;
-        calls.lastCall = Date.now();
-        if (previousCall && calls.lastCall - previousCall <= t) {
-          clearTimeout(calls.lastCallTimer);
-        }
-        calls.lastCallTimer = setTimeout(() => f(args), t);
-      };
     },
   },
 };

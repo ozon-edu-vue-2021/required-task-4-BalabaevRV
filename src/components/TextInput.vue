@@ -6,7 +6,7 @@
       :id="idInput"
       :name="idInput"
       class="input__field"
-      :class="{ 'input__field--error': haveError }"
+      :class="['input__field', { 'input__field--error': haveError }]"
       @change="changeInputField"
       autocomplete="off"
     />
@@ -26,7 +26,7 @@ export default {
     },
     validationRule: {
       default: "",
-      type: String,
+      type: RegExp,
     },
   },
   data() {

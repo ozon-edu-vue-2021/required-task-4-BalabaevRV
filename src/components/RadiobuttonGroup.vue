@@ -13,7 +13,7 @@
           :name="idInput"
           class="radibutton__input"
           :value="value.slug"
-          @change="changeInput"
+          v-model="currentValue"
           :checked="value.checked"
         />
         <span class="radibutton__checkmark"></span>
@@ -44,12 +44,14 @@ export default {
     },
   },
   data() {
-    return {};
+    return {
+      currentValue: ""
+    };
   },
-  methods: {
-    changeInput(e) {
-      this.$emit("changeInput", { value: e.target.value, id: this.idInput });
-    },
+  watch: {
+    currentValue: function (newVal) {
+      this.$emit("changeInput", { value: newVal, id: this.idInput });
+    }
   },
 };
 </script>

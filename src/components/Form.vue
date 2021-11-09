@@ -7,19 +7,19 @@
           idInput="surname"
           labelInput="Фамилия"
           @changeInputField="changeInputField"
-          validationRule="^[А-ЯЁа-яё]+$"
+          :validationRule="validataionRules.RUSSIA_WORDS"
         />
         <text-input
           idInput="firstName"
           labelInput="Имя"
           @changeInputField="changeInputField"
-          validationRule="^[А-ЯЁа-яё]+$"
+          :validationRule="validataionRules.RUSSIA_WORDS"
         />
         <text-input
           idInput="middleName"
           labelInput="Отчество"
           @changeInputField="changeInputField"
-          validationRule="^[А-ЯЁа-яё]+$"
+          :validationRule="validataionRules.RUSSIA_WORDS"
         />
       </div>
       <div class="inputsGroup__row">
@@ -33,7 +33,7 @@
           idInput="email"
           labelInput="E-mail"
           @changeInputField="changeInputField"
-          validationRule="[A-Za-z0-9]+@[A-Za-z0-9]+\.[A-Za-z]+"
+          :validationRule="validataionRules.EMAIL"
         />
       </div>
       <radiobutton-group
@@ -50,22 +50,22 @@
         idInput="citizenship"
         labelInput="Гражданство"
         :listItems="citizenships"
-        EmptyValue="Ваше гражданство"
+        emptyValue="Ваше гражданство"
         @changeSelect="changeCitizenship"
         field="nationality"
       />
-      <div v-if="info.citizenship == '8604'" class="inputsGroup__row">
+      <div v-if="russianCitizenships" class="inputsGroup__row">
         <text-input
           idInput="passportSeries"
           labelInput="Серия паспорта"
           @changeInputField="changeInputField"
-          validationRule="^\d{4}$"
+          :validationRule="validataionRules.ONLY_4_NUMB"
         />
         <text-input
           idInput="passportID"
           labelInput="Номер паспорта"
           @changeInputField="changeInputField"
-          validationRule="^\d{6}$"
+          :validationRule="validataionRules.ONLY_6_NUMB"
         />
         <date-input
           idInput="dateOfIssue"
@@ -79,19 +79,19 @@
             idInput="latSurname"
             labelInput="Фамилия на латинице"
             @changeInputField="changeInputField"
-            validationRule="^[A-Za-z]+$"
+            :validationRule="validataionRules.ENGLISH_WORDS"
           />
           <text-input
             idInput="latFirstName"
             labelInput="Имя на латинице"
             @changeInputField="changeInputField"
-            validationRule="^[A-Za-z]+$"
+            :validationRule="validataionRules.ENGLISH_WORDS"
           />
           <text-input
             idInput="passportIDForeign"
             labelInput="Номер паспорта"
             @changeInputField="changeInputField"
-            validationRule="^\d$"
+            :validationRule="validataionRules.ONLY_NUMB"
           />
         </div>
         <div class="inputsGroup__row">
@@ -99,7 +99,7 @@
             idInput="countryOfIssue"
             labelInput="Страна выдачи"
             :listItems="citizenshipsNoRussian"
-            EmptyValue="Выберите страну"
+            emptyValue="Выберите страну"
             field="nationality"
             @changeSelect="changeInputField"
           />
@@ -107,7 +107,7 @@
             idInput="typeOfPassport"
             labelInput="Тип паспорта"
             :listItems="typeOfPassport"
-            EmptyValue="Тип паспорта"
+            emptyValue="Тип паспорта"
             field="type"
             @changeSelect="changeInputField"
           />
@@ -127,13 +127,13 @@
           idInput="oldSurname"
           labelInput="Фамилия"
           @changeInputField="changeInputField"
-          validationRule="^[А-ЯЁа-яё]+$"
+          :validationRule="validataionRules.RUSSIA_WORDS"
         />
         <text-input
           idInput="oldFirstName"
           labelInput="Имя"
           @changeInputField="changeInputField"
-          validationRule="^[А-ЯЁа-яё]+$"
+          :validationRule="validataionRules.RUSSIA_WORDS"
         />
       </div>
     </div>
@@ -149,6 +149,8 @@ import DropdownList from "./DropdownList.vue";
 import PrimaryButton from "./PrimaryButton.vue";
 import citizenships from "@/assets/data/citizenships.json";
 import typeOfPassport from "@/assets/data/passport-types.json";
+import {validataionRules}  from "@/constants/validationRules.js";
+import {NUM_OF_RUSSIAN}  from "@/constants/numOfRussian.js";
 
 export default {
   components: {
@@ -209,6 +211,7 @@ export default {
         oldFirstName: "",
       },
       errorsArray: [],
+      validataionRules: validataionRules, 
       foreignPassportField: [
         "latSurname",
         "latFirstName",
@@ -223,19 +226,21 @@ export default {
     citizenshipsNoRussian: function () {
       return this.citizenships.slice(1);
     },
+    russianCitizenships: function () {
+      return this.info.citizenship === NUM_OF_RUSSIAN;
+    }
   },
   methods: {
     toggleChangeName(data) {
-      this.info.changeName = data.value === "true" ? true : false;
+      this.info.changeName = data.value === "true";
     },
     changeCitizenship(data) {
-      if (data.value == "8604") {
+      if (data.value === NUM_OF_RUSSIAN) {
         this.cleanInfo(this.foreignPassportField);
       } else {
         this.cleanInfo(this.RussianPassportField);
       }
       this.changeInputField(data);
-      console.log(this.info);
     },
     cleanInfo(currentArray) {
       currentArray.forEach((element) => {
@@ -261,9 +266,6 @@ export default {
           return;
         }
       }
-    },
-    ValidationInputs() {
-      return false;
     },
     doSubmit() {
       if (this.errorsArray.length > 0) {
