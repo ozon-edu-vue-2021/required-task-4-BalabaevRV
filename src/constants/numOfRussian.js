@@ -1,1 +1,1 @@
-export const NUM_OF_RUSSIAN = "8604";
+export const NUM_OF_RUSSIAN = 8604;

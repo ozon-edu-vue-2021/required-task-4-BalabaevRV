@@ -5,7 +5,6 @@
       type="text"
       :id="idInput"
       :name="idInput"
-      class="input__field"
       :class="['input__field', { 'input__field--error': haveError }]"
       @change="changeInputField"
       autocomplete="off"

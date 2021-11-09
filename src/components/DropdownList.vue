@@ -17,7 +17,7 @@
         v-for="value in sortList"
         :key="value.id"
         :id="value.id"
-        @click="setValue"
+        @click="setValue(value.id)"
       >
         {{ value[field] }}
       </li>
@@ -84,8 +84,7 @@ export default {
     },
   },
   methods: {
-    setValue(e) {
-      const currentId = e.target.getAttribute("id");
+    setValue(currentId) {
       this.currentItem = this.listItems.find((item) => item.id == currentId);
       this.value = currentId;
       this.isDropdownOpen = false;
