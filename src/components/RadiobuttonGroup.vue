@@ -45,13 +45,13 @@ export default {
   },
   data() {
     return {
-      currentValue: ""
+      currentValue: "",
     };
   },
   watch: {
     currentValue: function (newVal) {
       this.$emit("changeInput", { value: newVal, id: this.idInput });
-    }
+    },
   },
 };
 </script>

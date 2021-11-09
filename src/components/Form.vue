@@ -149,8 +149,8 @@ import DropdownList from "./DropdownList.vue";
 import PrimaryButton from "./PrimaryButton.vue";
 import citizenships from "@/assets/data/citizenships.json";
 import typeOfPassport from "@/assets/data/passport-types.json";
-import {validataionRules}  from "@/constants/validationRules.js";
-import {NUM_OF_RUSSIAN}  from "@/constants/numOfRussian.js";
+import { validataionRules } from "@/constants/validationRules.js";
+import { NUM_OF_RUSSIAN } from "@/constants/numOfRussian.js";
 
 export default {
   components: {
@@ -211,7 +211,7 @@ export default {
         oldFirstName: "",
       },
       errorsArray: [],
-      validataionRules: validataionRules, 
+      validataionRules: validataionRules,
       foreignPassportField: [
         "latSurname",
         "latFirstName",
@@ -228,7 +228,7 @@ export default {
     },
     russianCitizenships: function () {
       return this.info.citizenship === NUM_OF_RUSSIAN;
-    }
+    },
   },
   methods: {
     toggleChangeName(data) {

@@ -6,7 +6,6 @@
       @focus="isDropdownOpen = true"
       class="input__field"
       @input="debouncedSearch"
-      ref="currentInput"
       v-model="currentInput"
     />
     <ul
@@ -28,7 +27,7 @@
 
 <script>
 import ClickOutside from "vue-click-outside";
-import {debounce} from "@/utils.js" 
+import { debounce } from "@/utils.js";
 
 export default {
   props: {
@@ -64,7 +63,7 @@ export default {
       currentItem: {},
       filterValue: "",
       debouncedSearch: debounce(this.filterList, 500),
-      currentInput: ""
+      currentInput: "",
     };
   },
   computed: {

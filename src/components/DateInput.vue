@@ -73,7 +73,7 @@ export default {
 </script>
 
 <style>
-  .input__group {
-    width: 220px;
-  }
+.input__group {
+  width: 220px;
+}
 </style>
