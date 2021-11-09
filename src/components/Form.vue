@@ -209,8 +209,14 @@ export default {
         oldFirstName: "",
       },
       errorsArray: [],
-      foreignPassportField: ["latSurname", "latFirstName", "passportIDForeign", "countryOfIssue", "typeOfPassport"],
-      RussianPassportField: ["passportID", "passportSeries", "dateOfIssue"]
+      foreignPassportField: [
+        "latSurname",
+        "latFirstName",
+        "passportIDForeign",
+        "countryOfIssue",
+        "typeOfPassport",
+      ],
+      RussianPassportField: ["passportID", "passportSeries", "dateOfIssue"],
     };
   },
   computed: {
@@ -223,7 +229,7 @@ export default {
       this.info.changeName = data.value === "true" ? true : false;
     },
     changeCitizenship(data) {
-      if (data.value == '8604') {
+      if (data.value == "8604") {
         this.cleanInfo(this.foreignPassportField);
       } else {
         this.cleanInfo(this.RussianPassportField);
@@ -232,9 +238,9 @@ export default {
       console.log(this.info);
     },
     cleanInfo(currentArray) {
-      currentArray.forEach(element => {
-        this.info[element] = "",
-        this.errorsArray.splice(this.errorsArray.indexOf(element), 1);
+      currentArray.forEach((element) => {
+        (this.info[element] = ""),
+          this.errorsArray.splice(this.errorsArray.indexOf(element), 1);
       });
     },
     changeInputField(data) {
